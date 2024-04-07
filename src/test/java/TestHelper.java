@@ -23,6 +23,7 @@ public class TestHelper {
     String baseUrl = "http://127.0.0.1:3000";
     String baseUrlAdmin = baseUrl + "/admin";
 
+    static final String USERNAME = "username";
     static final String PASSWORD = "password";
 
     @Before
@@ -54,27 +55,6 @@ public class TestHelper {
         } catch (NoSuchElementException e) {
             return false;
         }
-    }
-
-    String generateUserAndRegister() {
-        String username = generateRandomString();
-        register(username, PASSWORD);
-        logout();
-
-        return username;
-    }
-
-
-    String generateRandomString() {
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        Random random = new Random();
-
-        return random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(40) // String length
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
     }
 
     void register(String username, String password) {
@@ -114,6 +94,11 @@ public class TestHelper {
         logout.click();
 
         waitForElementById("Admin");
+    }
+
+    void deleteUser() {
+        goToPage("Admin");
+        driver.findElement(By.linkText("Delete")).click();
     }
 
     @After
