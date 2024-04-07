@@ -13,4 +13,5 @@
 /jarRepositories.xml
 /misc.xml
 /vcs.xml
-/.class
+*.class
+target/
