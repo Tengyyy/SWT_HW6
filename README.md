@@ -1,4 +1,4 @@
-Homework 6
+## HW 6 - Automated Web-Application Testing
 
-Hans Martin Tomingas
+Hans Martin Tomingas </br>
 Artur Kasenõmmm
