@@ -84,7 +84,7 @@ public class EndUserTest extends TestHelper{
         Assert.assertTrue(bookPresent);
 
         // Search result
-        String itemText = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div[6]/h3/a")).getText();
+        String itemText = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div[8]/h3/a")).getText();
         Assert.assertEquals("Web Application Testing Book", itemText);
     }
 
@@ -93,11 +93,11 @@ public class EndUserTest extends TestHelper{
         // Click book category button
         driver.findElement(By.xpath("/html/body/div[2]/div/ul/li[3]/a")).click();
 
-        boolean bookPresent = isElementPresent(By.xpath("/html/body/div[4]/div[2]/div[6]/h3/a"));
+        boolean bookPresent = isElementPresent(By.xpath("//*[@id=\"Books\"]"));
         Assert.assertTrue(bookPresent);
 
         // Search result
-        String itemText = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div[6]/h3/a")).getText();
+        String itemText = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div[2]/h3/a")).getText();
         Assert.assertEquals("Web Application Testing Book", itemText);
     }
 
