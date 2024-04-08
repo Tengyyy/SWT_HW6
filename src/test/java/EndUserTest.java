@@ -1,9 +1,13 @@
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 public class EndUserTest extends TestHelper{
     @Test
@@ -131,6 +135,33 @@ public class EndUserTest extends TestHelper{
         String confirmationText = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/h3")).getText();
         Assert.assertEquals("Thank you for your order", confirmationText);
 
+    }
+
+    @Test
+    public void checkOtherCategoryItems() {
+        // Supposed to fail
+        // Bug: "other" category should contain items that are not included in either "Sunglasses" nor "Books" category
+
+        // Check "Sunglasses" category
+        driver.findElement(By.xpath("/html/body/div[2]/div/ul/li[2]/a")).click();
+        List<WebElement> sunglassItems = driver.findElements(By.className("entry"));
+
+        // Check "Books" category
+        driver.findElement(By.xpath("/html/body/div[2]/div/ul/li[3]/a")).click();
+        List<WebElement> bookItems = driver.findElements(By.className("entry"));
+
+        // Check "Other" category
+        driver.findElement(By.xpath("/html/body/div[2]/div/ul/li[4]/a")).click();
+        List<WebElement> otherItems = driver.findElements(By.className("entry"));
+
+        for (WebElement item : otherItems) {
+            for (WebElement sunglassItem : sunglassItems) {
+                assertNotEquals("Item from 'Sunglasses' found in 'Other'", sunglassItem.getText(), item.getText());
+            }
+            for (WebElement bookItem : bookItems) {
+                assertNotEquals("Item from 'Books' found in 'Other'", bookItem.getText(), item.getText());
+            }
+        }
     }
 
 }
