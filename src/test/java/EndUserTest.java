@@ -164,4 +164,64 @@ public class EndUserTest extends TestHelper{
         }
     }
 
+    @Test
+    public void blankNameTest() {
+        String address = "address123";
+        String email = "user@mail";
+
+        addProductTest();
+
+        // Checkout button
+        driver.findElement(By.xpath("/html/body/div[4]/div[1]/div/form[2]/input")).click();
+
+        boolean checkoutPage = isElementPresent(By.xpath("//*[@id=\"order_page\"]"));
+        Assert.assertTrue(checkoutPage);
+
+        // Address, email
+        driver.findElement(By.xpath("//*[@id=\"order_address\"]")).sendKeys(address);
+        driver.findElement(By.xpath("//*[@id=\"order_email\"]")).sendKeys(email);
+
+        // Payment option selector
+        By selectOptionBy = By.id("order_pay_type");
+        Assert.assertTrue(isElementPresent(selectOptionBy));
+        driver.findElement(selectOptionBy).click();
+
+        // Choose "check" option
+        Assert.assertTrue(isElementPresent(By.xpath("/html/body/div[4]/div[2]/div/form/div[4]/select/option[2]")));
+        driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/form/div[4]/select/option[2]")).click();
+
+        // Purchase confirmed
+        driver.findElement(By.name("commit")).click();
+        String rejectionText = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/form/div[1]/ul/li")).getText();
+        Assert.assertEquals("Name can't be blank", rejectionText);
+    }
+
+    @Test
+    public void blankPaymentTest() {
+        String username = "username";
+        String address = "address123";
+        String email = "user@mail";
+
+        addProductTest();
+
+        // Checkout button
+        driver.findElement(By.xpath("/html/body/div[4]/div[1]/div/form[2]/input")).click();
+
+        boolean checkoutPage = isElementPresent(By.xpath("//*[@id=\"order_page\"]"));
+        Assert.assertTrue(checkoutPage);
+
+        // Name, address, email
+        driver.findElement(By.xpath("//*[@id=\"order_name\"]")).sendKeys(username);
+        driver.findElement(By.xpath("//*[@id=\"order_address\"]")).sendKeys(address);
+        driver.findElement(By.xpath("//*[@id=\"order_email\"]")).sendKeys(email);
+
+        // Commit purchase
+        driver.findElement(By.name("commit")).click();
+
+        String confirmationText = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/form/div[1]/ul/li")).getText();
+        Assert.assertEquals("Pay type is not included in the list", confirmationText);
+
+    }
+
+
 }
